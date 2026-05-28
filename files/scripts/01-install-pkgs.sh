@@ -36,6 +36,10 @@ yq -r '.repos.url // {} | to_entries[] | "\(.key) \(.value)"' "$PKG_FILE" \
       curl -s -o "/etc/yum.repos.d/${name}.repo" "$(echo "$url" | envsubst)"
     done
 
+yq -r '.repos.inline // {} | keys[]' "$PKG_FILE" | while read -r name; do
+    yq -r ".repos.inline[\"${name}\"]" "$PKG_FILE" > "/etc/yum.repos.d/${name}.repo"
+done
+
 readarray -t GLOBAL_COPR < <(yq -r '.repos.copr // [] | .[]' "$PKG_FILE")
 copr_manage enable "${GLOBAL_COPR[@]}"
 
@@ -89,6 +93,10 @@ fi
 
 # --- Cleanup global repos ---
 yq -r '.repos.url // {} | keys[]' "$PKG_FILE" | while read -r name; do
+    rm -f "/etc/yum.repos.d/${name}.repo"
+done
+
+yq -r '.repos.inline // {} | keys[]' "$PKG_FILE" | while read -r name; do
     rm -f "/etc/yum.repos.d/${name}.repo"
 done
 
