@@ -50,8 +50,10 @@ packages:
         - gnome-disk-utility
     sway:
       packages:
+        - adw-gtk3-theme
         - ghostty
         - ly
+        - papirus-icon-theme
 
   gaming:
     repos:
