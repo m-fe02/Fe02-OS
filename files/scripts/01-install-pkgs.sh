@@ -59,6 +59,10 @@ fi
 echo "Installing common and variant packages..."
 "${DNF_INSTALL[@]}" $COMMON_PKGS $VARIANT_PKGS
 
+if [ "$DESKTOP_ENV" = "sway" ]; then
+    systemctl enable ly@tty2.service
+fi
+
 # --- Gaming packages ---
 GAMING=${GAMING:-false}
 if [ "$GAMING" = "true" ]; then
