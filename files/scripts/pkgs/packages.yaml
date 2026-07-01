@@ -11,13 +11,19 @@ repos:
 
 packages:
   remove:
-    - firefox
-    - firefox-langpacks
-    - yelp
-    - gnome-classic-session
-    - gnome-shell-extension*
-    - gnome-tour
-    - gnome-system-monitor
+    common:
+      - firefox
+      - firefox-langpacks
+    gnome:
+      - yelp
+      - gnome-classic-session
+      - gnome-shell-extension*
+      - gnome-tour
+      - gnome-system-monitor
+    cosmic: []
+    kde: []
+    sway:
+      - sddm
 
   # Installed on every image, regardless of variant.
   common:
@@ -45,6 +51,7 @@ packages:
     sway:
       packages:
         - ghostty
+        - ly
 
   gaming:
     repos:

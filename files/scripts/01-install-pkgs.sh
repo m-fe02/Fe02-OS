@@ -47,7 +47,7 @@ copr_manage enable "${GLOBAL_COPR[@]}"
 # --- Install packages ---
 echo "Parsing packages for variant: $DESKTOP_ENV"
 
-REMOVALS=$(yq -r '.packages.remove[]' "$PKG_FILE" | xargs)
+REMOVALS=$(yq -r "(.packages.remove.common // [])[], (.packages.remove.${DESKTOP_ENV} // [])[]" "$PKG_FILE" | xargs)
 COMMON_PKGS=$(yq -r '.packages.common[]' "$PKG_FILE" | xargs)
 VARIANT_PKGS=$(yq -r ".packages.variants.${DESKTOP_ENV}.packages[]?" "$PKG_FILE" | xargs)
 
