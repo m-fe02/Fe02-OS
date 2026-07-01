@@ -29,7 +29,6 @@ echo "Enforcing signature policy for $IMAGE_REF..."
 if bootc switch --enforce-container-sigpolicy "$IMAGE_REF"; then
     echo "-------------------------------------------------------"
     echo "Fe02-OS is now SEALED for production updates."
-    echo "Your system will now only accept signed updates from m-fe02."
     echo "Please reboot your system."
 else
     echo "Error: Failed to enforce signature policy."

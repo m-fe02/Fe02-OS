@@ -45,6 +45,14 @@ jobs:
             base_image: quay.io/fedora-ostree-desktops/cosmic-atomic
             tag: cosmic-gaming
             gaming: true
+          - desktop: sway
+            base_image: quay.io/fedora-ostree-desktops/sway-atomic
+            tag: sway
+            gaming: false
+          - desktop: sway
+            base_image: quay.io/fedora-ostree-desktops/sway-atomic
+            tag: sway-gaming
+            gaming: true
     defaults:
       run:
         working-directory: '.'

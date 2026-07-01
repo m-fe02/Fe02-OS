@@ -22,6 +22,18 @@ sudo bootc switch ghcr.io/m-fe02/fe02-os:kde
 sudo bootc switch ghcr.io/m-fe02/fe02-os:kde-gaming
 ```
 
+### Fe02-OS GNOME
+
+```bash
+sudo bootc switch ghcr.io/m-fe02/fe02-os:gnome
+```
+
+### Fe02-OS GNOME (Gaming)
+
+```bash
+sudo bootc switch ghcr.io/m-fe02/fe02-os:gnome-gaming
+```
+
 ### Fe02-OS Cosmic
 
 ```bash
@@ -32,6 +44,18 @@ sudo bootc switch ghcr.io/m-fe02/fe02-os:cosmic
 
 ```bash
 sudo bootc switch ghcr.io/m-fe02/fe02-os:cosmic-gaming
+```
+
+### Fe02-OS Sway
+
+```bash
+sudo bootc switch ghcr.io/m-fe02/fe02-os:sway
+```
+
+### Fe02-OS Sway (Gaming)
+
+```bash
+sudo bootc switch ghcr.io/m-fe02/fe02-os:sway-gaming
 ```
 
 ## Post-Installation Utilities
@@ -62,10 +86,14 @@ fe02 [variant | command]
 
 **Variants:**
 
-*   `cosmic`: Switch to the Fe02-OS Cosmic variant.
-*   `cosmic-gaming`: Switch to the Fe02-OS Cosmic (Gaming) variant.
 *   `kde`: Switch to the Fe02-OS KDE variant.
 *   `kde-gaming`: Switch to the Fe02-OS KDE (Gaming) variant.
+*   `gnome`: Switch to the Fe02-OS GNOME variant.
+*   `gnome-gaming`: Switch to the Fe02-OS GNOME (Gaming) variant.
+*   `cosmic`: Switch to the Fe02-OS Cosmic variant.
+*   `cosmic-gaming`: Switch to the Fe02-OS Cosmic (Gaming) variant.
+*   `sway`: Switch to the Fe02-OS Sway variant.
+*   `sway-gaming`: Switch to the Fe02-OS Sway (Gaming) variant.
 
 **Commands:**
 

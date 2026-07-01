@@ -3,7 +3,6 @@
 
 repos:
   url:
-    tailscale: "https://pkgs.tailscale.com/stable/fedora/tailscale.repo"
 
   inline:
 
@@ -43,6 +42,9 @@ packages:
     kde:
       packages:
         - gnome-disk-utility
+    sway:
+      packages:
+        - ghostty
 
   gaming:
     repos:
@@ -65,3 +67,4 @@ desktop_entries:
       - org.freedesktop.MalcontentControl.desktop
     cosmic: []
     kde: []
+    sway: []

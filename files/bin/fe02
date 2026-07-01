@@ -14,6 +14,8 @@ function show_usage() {
     echo "  cosmic-gaming -> :cosmic-gaming"
     echo "  kde           -> :kde"
     echo "  kde-gaming    -> :kde-gaming"
+    echo "  sway          -> :sway"
+    echo "  sway-gaming   -> :sway-gaming"
     echo ""
     echo "Commands:"
     echo "  status  - Show current booted and staged images"
@@ -52,6 +54,12 @@ case "$1" in
         ;;
     kde-gaming)
         TAG="kde-gaming"
+        ;;
+    sway)
+        TAG="sway"
+        ;;
+    sway-gaming)
+        TAG="sway-gaming"
         ;;
     *)
         echo "Error: Unknown variant or command '$1'"

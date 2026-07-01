@@ -5,7 +5,7 @@ usage() {
     echo "Usage: $0 [OPTIONS]"
     echo ""
     echo "Options:"
-    echo "  -d, --desktop   Desktop environment: kde, gnome, cosmic (default: kde)"
+    echo "  -d, --desktop   Desktop environment: kde, gnome, cosmic, sway (default: kde)"
     echo "  -g, --gaming    Enable gaming packages (default: false)"
     echo "  -h, --help      Show this help message"
     echo ""
@@ -47,8 +47,9 @@ case "$DESKTOP_ENV" in
     kde)    BASE_IMAGE="quay.io/fedora-ostree-desktops/kinoite" ;;
     gnome)  BASE_IMAGE="quay.io/fedora-ostree-desktops/silverblue" ;;
     cosmic) BASE_IMAGE="quay.io/fedora-ostree-desktops/cosmic-atomic" ;;
+    sway)   BASE_IMAGE="quay.io/fedora-ostree-desktops/sway-atomic" ;;
     *)
-        echo "Error: Unknown desktop environment '$DESKTOP_ENV'. Must be one of: kde, gnome, cosmic"
+        echo "Error: Unknown desktop environment '$DESKTOP_ENV'. Must be one of: kde, gnome, cosmic, sway"
         exit 1
         ;;
 esac
