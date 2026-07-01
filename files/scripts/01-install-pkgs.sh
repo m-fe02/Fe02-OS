@@ -33,6 +33,7 @@ copr_manage() {
 # --- Setup global repos ---
 yq -r '.repos.url // {} | to_entries[] | "\(.key) \(.value)"' "$PKG_FILE" \
   | while read -r name url; do
+      [[ -z "$name" || -z "$url" ]] && continue
       curl -s -o "/etc/yum.repos.d/${name}.repo" "$(echo "$url" | envsubst)"
     done
 
