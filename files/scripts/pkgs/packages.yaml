@@ -8,6 +8,7 @@ repos:
 
   copr:
     - scottames/ghostty
+    - che/nerd-fonts
 
 packages:
   remove:
@@ -54,6 +55,7 @@ packages:
         - ghostty
         - ly
         - papirus-icon-theme
+        - nerd-fonts
 
   gaming:
     repos:
