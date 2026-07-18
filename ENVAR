@@ -2,6 +2,3 @@
 PROJECT_NAME="fe02"
 IMAGE_NAME="fe02-os"
 MAJOR_VERSION="44"
-ALT_TAG=""
-DATESTAMP=$(date +%Y%m%d)
-TIMESTAMP=$(date +%H%M%S)

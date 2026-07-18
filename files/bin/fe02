@@ -2,20 +2,16 @@
 # fe02: Fe02-OS Variant Switcher
 
 REGISTRY="ghcr.io/m-fe02/fe02-os"
+VALID_VARIANTS="gnome gnome-gaming cosmic cosmic-gaming kde kde-gaming sway sway-gaming"
 
 function show_usage() {
     echo "Fe02-OS Switcher"
     echo "Usage: fe02 [variant | command]"
     echo ""
     echo "Variants:"
-    echo "  gnome         -> :gnome"
-    echo "  gnome-gaming  -> :gnome-gaming"
-    echo "  cosmic        -> :cosmic"
-    echo "  cosmic-gaming -> :cosmic-gaming"
-    echo "  kde           -> :kde"
-    echo "  kde-gaming    -> :kde-gaming"
-    echo "  sway          -> :sway"
-    echo "  sway-gaming   -> :sway-gaming"
+    for v in $VALID_VARIANTS; do
+        echo "  $v"
+    done
     echo ""
     echo "Commands:"
     echo "  status  - Show current booted and staged images"
@@ -37,34 +33,13 @@ case "$1" in
         sudo bootc upgrade
         exit $?
         ;;
-    gnome)
-        TAG="gnome"
-        ;;
-    gnome-gaming)
-        TAG="gnome-gaming"
-        ;;
-    cosmic)
-        TAG="cosmic"
-        ;;
-    cosmic-gaming)
-        TAG="cosmic-gaming"
-        ;;
-    kde)
-        TAG="kde"
-        ;;
-    kde-gaming)
-        TAG="kde-gaming"
-        ;;
-    sway)
-        TAG="sway"
-        ;;
-    sway-gaming)
-        TAG="sway-gaming"
-        ;;
     *)
-        echo "Error: Unknown variant or command '$1'"
-        show_usage
-        exit 1
+        if ! echo "$VALID_VARIANTS" | grep -qw "$1"; then
+            echo "Error: Unknown variant or command '$1'"
+            show_usage
+            exit 1
+        fi
+        TAG="$1"
         ;;
 esac
 

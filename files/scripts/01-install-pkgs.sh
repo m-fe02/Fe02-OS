@@ -6,7 +6,7 @@ set -ex
 export FEDORA_VERSION=$(rpm -E %fedora)
 
 if [ -z "${DESKTOP_ENV}" ]; then
-    echo "ERROR: DESKTOP_ENV is not set; must be one of: kde, cosmic" >&2
+    echo "ERROR: DESKTOP_ENV is not set; must be one of: kde, gnome, cosmic, sway" >&2
     exit 1
 fi
 
@@ -59,9 +59,11 @@ fi
 echo "Installing common and variant packages..."
 "${DNF_INSTALL[@]}" $COMMON_PKGS $VARIANT_PKGS
 
-if [ "$DESKTOP_ENV" = "sway" ]; then
-    systemctl enable ly@tty2.service
-fi
+VARIANT_SERVICES=$(yq -r ".packages.variants.${DESKTOP_ENV}.services[]?" "$PKG_FILE" | xargs)
+for svc in $VARIANT_SERVICES; do
+    echo "Enabling service: $svc"
+    systemctl enable "$svc"
+done
 
 # --- Gaming packages ---
 GAMING=${GAMING:-false}

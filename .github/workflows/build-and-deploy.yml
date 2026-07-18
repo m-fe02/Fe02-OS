@@ -74,20 +74,23 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 'Build and Push Image'
+        id: push
         run: |
           source ENVAR
+          IMAGE="ghcr.io/m-fe02/fe02-os:${{ matrix.tag }}"
           podman build \
             --build-arg FEDORA_MAJOR_VERSION=${MAJOR_VERSION} \
             --build-arg BASE_IMAGE_NAME=${{ matrix.base_image }} \
             --build-arg DESKTOP_ENV=${{ matrix.desktop }} \
             --build-arg GAMING=${{ matrix.gaming }} \
-            --tag ghcr.io/m-fe02/fe02-os:${{ matrix.tag }} \
+            --tag "${IMAGE}" \
             -f Containerfile
-          podman push ghcr.io/m-fe02/fe02-os:${{ matrix.tag }}
+          podman push --digestfile /tmp/digest "${IMAGE}"
+          echo "digest=$(cat /tmp/digest)" >> "$GITHUB_OUTPUT"
           podman system prune -a -f
 
       - name: 'Sign Image'
         env:
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
         run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ghcr.io/m-fe02/fe02-os:${{ matrix.tag }}
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "ghcr.io/m-fe02/fe02-os@${{ steps.push.outputs.digest }}"
