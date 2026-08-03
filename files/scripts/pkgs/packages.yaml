@@ -35,6 +35,8 @@ packages:
     - fastfetch
     - tailscale
     - btop
+    - rustup
+    - cargo
 
   # Only variant-specific packages.
   variants:
