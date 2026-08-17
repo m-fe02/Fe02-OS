@@ -46,18 +46,6 @@ sudo bootc switch ghcr.io/m-fe02/fe02-os:cosmic
 sudo bootc switch ghcr.io/m-fe02/fe02-os:cosmic-gaming
 ```
 
-### Fe02-OS Sway
-
-```bash
-sudo bootc switch ghcr.io/m-fe02/fe02-os:sway
-```
-
-### Fe02-OS Sway (Gaming)
-
-```bash
-sudo bootc switch ghcr.io/m-fe02/fe02-os:sway-gaming
-```
-
 ## Post-Installation Utilities
 
 After you have switched to a Fe02-OS image and rebooted, there are two utilities available to you: `seal-os` and `fe02`.
@@ -92,8 +80,6 @@ fe02 [variant | command]
 *   `gnome-gaming`: Switch to the Fe02-OS GNOME (Gaming) variant.
 *   `cosmic`: Switch to the Fe02-OS Cosmic variant.
 *   `cosmic-gaming`: Switch to the Fe02-OS Cosmic (Gaming) variant.
-*   `sway`: Switch to the Fe02-OS Sway variant.
-*   `sway-gaming`: Switch to the Fe02-OS Sway (Gaming) variant.
 
 **Commands:**
 

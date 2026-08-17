@@ -6,7 +6,7 @@ set -ex
 export FEDORA_VERSION=$(rpm -E %fedora)
 
 if [ -z "${DESKTOP_ENV}" ]; then
-    echo "ERROR: DESKTOP_ENV is not set; must be one of: kde, gnome, cosmic, sway" >&2
+    echo "ERROR: DESKTOP_ENV is not set; must be one of: kde, gnome, cosmic" >&2
     exit 1
 fi
 

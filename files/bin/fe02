@@ -2,7 +2,7 @@
 # fe02: Fe02-OS Variant Switcher
 
 REGISTRY="ghcr.io/m-fe02/fe02-os"
-VALID_VARIANTS="gnome gnome-gaming cosmic cosmic-gaming kde kde-gaming sway sway-gaming"
+VALID_VARIANTS="gnome gnome-gaming cosmic cosmic-gaming kde kde-gaming"
 
 function show_usage() {
     echo "Fe02-OS Switcher"

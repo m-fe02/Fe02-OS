@@ -23,8 +23,6 @@ packages:
       - gnome-system-monitor
     cosmic: []
     kde: []
-    sway:
-      - sddm
 
   # Installed on every image, regardless of variant.
   common:
@@ -51,15 +49,6 @@ packages:
     kde:
       packages:
         - gnome-disk-utility
-    sway:
-      packages:
-        - adw-gtk3-theme
-        - ghostty
-        - ly
-        - papirus-icon-theme
-        - nerd-fonts
-      services:
-        - ly@tty2.service
 
   gaming:
     repos:
@@ -82,4 +71,3 @@ desktop_entries:
       - org.freedesktop.MalcontentControl.desktop
     cosmic: []
     kde: []
-    sway: []
