@@ -8,7 +8,6 @@ repos:
 
   copr:
     - scottames/ghostty
-    - che/nerd-fonts
 
 packages:
   remove:
@@ -33,8 +32,6 @@ packages:
     - fastfetch
     - tailscale
     - btop
-    - rustup
-    - cargo
 
   # Only variant-specific packages.
   variants:
