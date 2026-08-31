@@ -49,6 +49,9 @@ jobs:
       run:
         working-directory: '.'
     steps:
+      - name: 'Maximize build space'
+        uses: ublue-os/remove-unwanted-software@695eb75bc387dbcd9685a8e72d23439d8686cba6
+
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@main
 
@@ -65,8 +68,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 'Build and Push Image'
-        id: push
+      - name: 'Build Image'
         run: |
           source ENVAR
           IMAGE="ghcr.io/m-fe02/fe02-os:${{ matrix.tag }}"
@@ -77,6 +79,42 @@ jobs:
             --build-arg GAMING=${{ matrix.gaming }} \
             --tag "${IMAGE}" \
             -f Containerfile
+
+      # Distro-agnostic OCI rechunker: https://github.com/coreos/chunkah
+      # Splits the image into content-addressed layers for smaller delta
+      # updates. Ported from ublue-os/image-template's Justfile `rechunk`
+      # recipe. Makes a near-full copy of the image, so watch runner disk
+      # space if this starts failing.
+      - name: 'Rechunk with Chunkah'
+        run: |
+          IMAGE="ghcr.io/m-fe02/fe02-os:${{ matrix.tag }}"
+          CHUNKAH_CONFIG_FILE="$(mktemp)"
+          CHUNKAH_OUTPUT_DIR="$(mktemp -d ./chunkah_XXXXXX)"
+          trap 'rm -f "${CHUNKAH_CONFIG_FILE}"; rm -rf "${CHUNKAH_OUTPUT_DIR}"' EXIT
+
+          podman inspect "${IMAGE}" > "${CHUNKAH_CONFIG_FILE}"
+
+          podman run --rm \
+            --mount=type=image,src="${IMAGE}",target=/chunkah \
+            -v "${CHUNKAH_CONFIG_FILE}:/chunkah-config.json:ro,Z" \
+            -v "${CHUNKAH_OUTPUT_DIR}:/run/out:Z" \
+            quay.io/coreos/chunkah:latest \
+            build \
+            --verbose \
+            --compressed \
+            --max-layers 128 \
+            --prune /sysroot/ \
+            --label ostree.commit- --label ostree.final-diffid- \
+            --config /chunkah-config.json \
+            --output oci:/run/out/chunked
+
+          CHUNKED_IMAGE="$(podman pull "oci:${CHUNKAH_OUTPUT_DIR}/chunked")"
+          podman tag "${CHUNKED_IMAGE}" "${IMAGE}"
+
+      - name: 'Push Image'
+        id: push
+        run: |
+          IMAGE="ghcr.io/m-fe02/fe02-os:${{ matrix.tag }}"
           podman push --digestfile /tmp/digest "${IMAGE}"
           echo "digest=$(cat /tmp/digest)" >> "$GITHUB_OUTPUT"
           podman system prune -a -f
