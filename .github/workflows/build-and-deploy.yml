@@ -18,6 +18,9 @@ jobs:
   build-and-push:
     name: build-and-push (${{ matrix.tag }})
     runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-${{ matrix.tag }}
+      cancel-in-progress: false
     strategy:
       matrix:
         include:
@@ -57,6 +60,9 @@ jobs:
 
       - name: 'Install Cosign'
         uses: sigstore/cosign-installer@v4.1.2
+        with:
+          # be careful when upgrading major versions
+          cosign-release: 'v3.1.2'
 
       - name: 'Delete huge unnecessary tools folder'
         run: rm -rf /opt/hostedtoolcache
@@ -123,4 +129,7 @@ jobs:
         env:
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
         run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "ghcr.io/m-fe02/fe02-os@${{ steps.push.outputs.digest }}"
+          # https://github.com/containers/container-libs/issues/388
+          # https://github.com/coreos/rpm-ostree/issues/5509
+          # use old bundle format, so we can use newer cosign 3.X.X instead of 2.X.X
+          cosign sign --yes --new-bundle-format=false --use-signing-config=false --key env://COSIGN_PRIVATE_KEY "ghcr.io/m-fe02/fe02-os@${{ steps.push.outputs.digest }}"
