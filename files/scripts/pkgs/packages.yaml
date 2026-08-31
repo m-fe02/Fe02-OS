@@ -7,7 +7,6 @@ repos:
   inline:
 
   copr:
-    - scottames/ghostty
 
 packages:
   remove:
@@ -39,10 +38,14 @@ packages:
       packages:
         - gnome-tweaks
         - adw-gtk3-theme
-        - ghostty
+        - gnome-shell-extension-appindicator
+        - gnome-shell-extension-blur-my-shell
+        - gnome-shell-extension-gsconnect
+        - gnome-shell-extension-just-perfection
+
     cosmic:
       packages:
-        - ghostty
+
     kde:
       packages:
         - gnome-disk-utility

@@ -44,10 +44,19 @@ done
 readarray -t GLOBAL_COPR < <(yq -r '.repos.copr // [] | .[]' "$PKG_FILE")
 copr_manage enable "${GLOBAL_COPR[@]}"
 
-# --- Install packages ---
+# --- Remove bloat ---
 echo "Parsing packages for variant: $DESKTOP_ENV"
 
 REMOVALS=$(yq -r "(.packages.remove.common // [])[], (.packages.remove.${DESKTOP_ENV} // [])[]" "$PKG_FILE" | xargs)
+
+# Removed before installing so wildcards (e.g. gnome-shell-extension*) only
+# match base-image bloat, not the variant packages installed below.
+if [ -n "$REMOVALS" ]; then
+    echo "Removing bloat packages..."
+    dnf remove -y $REMOVALS || true
+fi
+
+# --- Install packages ---
 COMMON_PKGS=$(yq -r '.packages.common[]' "$PKG_FILE" | xargs)
 VARIANT_PKGS=$(yq -r ".packages.variants.${DESKTOP_ENV}.packages[]?" "$PKG_FILE" | xargs)
 
@@ -90,13 +99,6 @@ if [ "$GAMING" = "true" ]; then
 
     copr_manage disable "${GAMING_COPR[@]}"
 fi
-
-# Remove bloat after all packages are installed so group deps are present to remove
-if [ -n "$REMOVALS" ]; then
-    echo "Removing bloat packages..."
-    dnf remove -y $REMOVALS || true
-fi
-
 
 # --- Cleanup global repos ---
 yq -r '.repos.url // {} | keys[]' "$PKG_FILE" | while read -r name; do
