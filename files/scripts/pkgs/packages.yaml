@@ -30,8 +30,6 @@ packages:
     - stow
     - fastfetch
     - tailscale
-    - btop
-    - ollama
 
   # Only variant-specific packages.
   variants:
