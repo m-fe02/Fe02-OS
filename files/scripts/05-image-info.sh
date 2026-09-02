@@ -1,7 +1,6 @@
 #!/usr/bin/bash
-# Rebrand os-release, mirroring the technique Bazzite/Bluefin use for their
-# own images. Must run BEFORE initramfs regeneration - IMAGE_ID is baked in
-# and read back out of the initramfs for hibernation-image matching.
+# Rebrand os-release. Must run BEFORE initramfs regeneration - IMAGE_ID is
+# baked in and read back out of the initramfs for hibernation-image matching.
 set -ex
 
 echo "Applying Fe02-OS image identity..."
@@ -32,8 +31,8 @@ sed -i "/^REDHAT_BUGZILLA_PRODUCT=/d; /^REDHAT_BUGZILLA_PRODUCT_VERSION=/d; /^RE
 
 # Fedora's grub2-switch-to-blscfg hardcodes EFIDIR based on the previous
 # ID=fedora. It still needs to look in /boot/efi/EFI/fedora for the actual
-# EFI assets even though ID no longer says "fedora" - Bazzite and Bluefin
-# both patch this the same way to avoid breaking UEFI boot config generation.
+# EFI assets even though ID no longer says "fedora", so patch it to avoid
+# breaking UEFI boot config generation.
 sed -i "s|^EFIDIR=.*|EFIDIR=\"fedora\"|" /usr/sbin/grub2-switch-to-blscfg
 
 echo "Image identity applied."

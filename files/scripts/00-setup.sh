@@ -14,17 +14,20 @@ chmod +x /usr/bin/seal-os /usr/bin/fe02
 echo "Step 2: Installing packages..."
 bash "$BUILD_SETUP_DIR/01-install-pkgs.sh"
 
-echo "Step 3: Removing unwanted desktop entries..."
-bash "$BUILD_SETUP_DIR/02-remove-desktop-entries.sh"
+echo "Step 3: Building GNOME Shell extensions..."
+bash "$BUILD_SETUP_DIR/02-gnome-extensions.sh"
 
-echo "Step 4: Applying branding..."
-bash "$BUILD_SETUP_DIR/03-branding.sh"
+echo "Step 4: Removing unwanted desktop entries..."
+bash "$BUILD_SETUP_DIR/03-remove-desktop-entries.sh"
 
-echo "Step 5: Applying image identity..."
-bash "$BUILD_SETUP_DIR/04-image-info.sh"
+echo "Step 5: Applying branding..."
+bash "$BUILD_SETUP_DIR/04-branding.sh"
 
-echo "Step 6: Regenerating initramfs for Plymouth branding..."
-bash "$BUILD_SETUP_DIR/05-initramfs.sh"
+echo "Step 6: Applying image identity..."
+bash "$BUILD_SETUP_DIR/05-image-info.sh"
+
+echo "Step 7: Regenerating initramfs for Plymouth branding..."
+bash "$BUILD_SETUP_DIR/06-initramfs.sh"
 
 echo "Running cleanup..."
-bash "$BUILD_SETUP_DIR/06-post-setup.sh"
+bash "$BUILD_SETUP_DIR/07-post-setup.sh"

@@ -37,10 +37,6 @@ packages:
       packages:
         - gnome-tweaks
         - adw-gtk3-theme
-        - gnome-shell-extension-appindicator
-        - gnome-shell-extension-blur-my-shell
-        - gnome-shell-extension-gsconnect
-        - gnome-shell-extension-just-perfection
 
     cosmic:
       packages:

@@ -57,6 +57,8 @@ jobs:
 
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@main
+        with:
+          submodules: 'recursive'
 
       - name: 'Install Cosign'
         uses: sigstore/cosign-installer@v4.1.2
@@ -88,8 +90,7 @@ jobs:
 
       # Distro-agnostic OCI rechunker: https://github.com/coreos/chunkah
       # Splits the image into content-addressed layers for smaller delta
-      # updates. Ported from ublue-os/image-template's Justfile `rechunk`
-      # recipe. Makes a near-full copy of the image, so watch runner disk
+      # updates. Makes a near-full copy of the image, so watch runner disk
       # space if this starts failing.
       - name: 'Rechunk with Chunkah'
         run: |

@@ -18,6 +18,10 @@ usage() {
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/../ENVAR"
 
+# GNOME Shell extensions are vendored as git submodules; make sure they're
+# checked out before building, otherwise the GNOME image ships them empty.
+git -C "${SCRIPT_DIR}/.." submodule update --init --recursive
+
 DESKTOP_ENV="kde"
 GAMING="false"
 

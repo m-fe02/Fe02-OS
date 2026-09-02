@@ -1,0 +1,2 @@
+[org.gnome.shell]
+enabled-extensions=['appindicatorsupport@rgcjonas.gmail.com', 'blur-my-shell@aunetx', 'gsconnect@andyholmes.github.io', 'just-perfection-desktop@just-perfection', 'clipboard-indicator@tudmotu.com', 'ddterm@amezin.github.com', 'rounded-window-corners@fxgn']
