@@ -57,8 +57,6 @@ jobs:
 
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@main
-        with:
-          submodules: 'recursive'
 
       - name: 'Install Cosign'
         uses: sigstore/cosign-installer@v4.1.2
