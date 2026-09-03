@@ -1,12 +1,12 @@
 #!/bin/bash
-# bootswitch: Fe02-OS Variant Switcher
+# fe02-bootswitch: Fe02-OS Variant Switcher
 
 REGISTRY="ghcr.io/m-fe02/fe02-os"
 VALID_VARIANTS="gnome gnome-gaming cosmic cosmic-gaming kde kde-gaming"
 
 function show_usage() {
     echo "Fe02-OS Switcher"
-    echo "Usage: bootswitch <variant>"
+    echo "Usage: fe02-bootswitch <variant>"
     echo ""
     echo "Variants:"
     for v in $VALID_VARIANTS; do
@@ -29,7 +29,10 @@ TAG="$1"
 FULL_IMAGE_PATH="${REGISTRY}:${TAG}"
 
 echo "Preparing switch to Fe02-OS ($TAG)..."
-sudo bootc switch --transport registry "${FULL_IMAGE_PATH}"
+# --enforce-container-sigpolicy isn't sticky across deployments - it has to
+# be passed on every switch, or the new deployment silently falls back to
+# ostree-unverified-registry even on an already-sealed system.
+sudo bootc switch --transport registry --enforce-container-sigpolicy "${FULL_IMAGE_PATH}"
 
 if [ $? -eq 0 ]; then
     echo ""

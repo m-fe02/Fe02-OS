@@ -48,28 +48,28 @@ sudo bootc switch ghcr.io/m-fe02/fe02-os:cosmic-gaming
 
 ## Post-Installation Utilities
 
-After you have switched to a Fe02-OS image and rebooted, there are three utilities available to you: `seal-os`, `bootswitch`, and `fe02-update`.
+After you have switched to a Fe02-OS image and rebooted, there are three utilities available to you: `fe02-sign`, `fe02-bootswitch`, and `fe02-update`.
 
-### `seal-os`
+### `fe02-sign`
 
-The `seal-os` utility enables signature verification for OS updates. This ensures that your system will only accept signed updates from the `ghcr.io/m-fe02/fe02-os` repository.
+The `fe02-sign` utility enables signature verification for OS updates. This ensures that your system will only accept signed updates from the `ghcr.io/m-fe02/fe02-os` repository.
 
 To seal your system, run the following command:
 
 ```bash
-sudo seal-os
+sudo fe02-sign
 ```
 
 You will be prompted to reboot after the process is complete.
 
-### `bootswitch`
+### `fe02-bootswitch`
 
-The `bootswitch` utility is a simple script to switch between the different Fe02-OS desktop variants.
+The `fe02-bootswitch` utility is a simple script to switch between the different Fe02-OS desktop variants.
 
 **Usage:**
 
 ```bash
-bootswitch <variant>
+fe02-bootswitch <variant>
 ```
 
 **Variants:**
@@ -86,7 +86,7 @@ bootswitch <variant>
 To switch to the Kinoite variant, run the following command:
 
 ```bash
-bootswitch kde
+fe02-bootswitch kde
 ```
 
 You will be prompted to reboot after the switch is staged.

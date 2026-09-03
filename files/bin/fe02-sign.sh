@@ -1,5 +1,5 @@
 #!/bin/bash
-# seal-os: Synchronizes policy and enables bootc signature enforcement
+# fe02-sign: Synchronizes policy and enables bootc signature enforcement
 
 if [ "$EUID" -ne 0 ]; then
   echo "Please run as root."
