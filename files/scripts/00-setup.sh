@@ -8,8 +8,9 @@ cp -drf /ctx/system/* /
 mkdir -p /etc/pki/containers
 cp /ctx/cosign.pub /etc/pki/containers/cosign.pub
 cp /ctx/bin/seal-os.sh /usr/bin/seal-os
-cp /ctx/bin/fe02 /usr/bin/fe02
-chmod +x /usr/bin/seal-os /usr/bin/fe02
+cp /ctx/bin/bootswitch /usr/bin/bootswitch
+cp /ctx/bin/fe02-update.sh /usr/bin/fe02-update
+chmod +x /usr/bin/seal-os /usr/bin/bootswitch /usr/bin/fe02-update
 
 echo "Step 2: Installing packages..."
 bash "$BUILD_SETUP_DIR/01-install-pkgs.sh"

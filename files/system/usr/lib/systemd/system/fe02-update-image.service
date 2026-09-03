@@ -1,0 +1,9 @@
+[Unit]
+Description=Fe02-OS Image Update
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bootc upgrade
+# bootc needs to relabel files during the upgrade; the confined systemd
+# context denies that. Same fix ublue-os/uupd uses for the same reason.
+SELinuxContext=system_u:unconfined_r:unconfined_t:s0

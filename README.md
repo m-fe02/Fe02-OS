@@ -48,7 +48,7 @@ sudo bootc switch ghcr.io/m-fe02/fe02-os:cosmic-gaming
 
 ## Post-Installation Utilities
 
-After you have switched to a Fe02-OS image and rebooted, there are two utilities available to you: `seal-os` and `fe02`.
+After you have switched to a Fe02-OS image and rebooted, there are three utilities available to you: `seal-os`, `bootswitch`, and `fe02-update`.
 
 ### `seal-os`
 
@@ -62,14 +62,14 @@ sudo seal-os
 
 You will be prompted to reboot after the process is complete.
 
-### `fe02` (Fe02-OS Switcher)
+### `bootswitch`
 
-The `fe02` utility is a simple script to switch between the different Fe02-OS desktop variants.
+The `bootswitch` utility is a simple script to switch between the different Fe02-OS desktop variants.
 
 **Usage:**
 
 ```bash
-fe02 [variant | command]
+bootswitch <variant>
 ```
 
 **Variants:**
@@ -81,17 +81,40 @@ fe02 [variant | command]
 *   `cosmic`: Switch to the Fe02-OS Cosmic variant.
 *   `cosmic-gaming`: Switch to the Fe02-OS Cosmic (Gaming) variant.
 
-**Commands:**
-
-*   `status`: Show the current booted and staged images.
-*   `upgrade`: Upgrade to the latest version of the current image.
-
 **Example:**
 
 To switch to the Kinoite variant, run the following command:
 
 ```bash
-fe02 kde
+bootswitch kde
 ```
 
 You will be prompted to reboot after the switch is staged.
+
+### `fe02-update`
+
+The `fe02-update` utility updates the system image, Flatpaks, and Distrobox containers in one pass.
+
+**Usage:**
+
+```bash
+fe02-update [command]
+```
+
+**Commands:**
+
+*   *(none)*: Update the system image, Flatpaks, and Distrobox containers.
+*   `status`: Show the current booted and staged images.
+
+A "Fe02-OS Update" entry is also available in the application menu. It opens
+a terminal, runs the update, and closes the terminal when finished. The
+image-upgrade step runs via a systemd service (`fe02-update-image.service`)
+authorized by a polkit rule, so it never prompts for a sudo password.
+
+**Example:**
+
+```bash
+fe02-update
+```
+
+You will be prompted to reboot after the update if a new image was staged.

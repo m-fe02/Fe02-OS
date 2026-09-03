@@ -1,21 +1,17 @@
 #!/bin/bash
-# fe02: Fe02-OS Variant Switcher
+# bootswitch: Fe02-OS Variant Switcher
 
 REGISTRY="ghcr.io/m-fe02/fe02-os"
 VALID_VARIANTS="gnome gnome-gaming cosmic cosmic-gaming kde kde-gaming"
 
 function show_usage() {
     echo "Fe02-OS Switcher"
-    echo "Usage: fe02 [variant | command]"
+    echo "Usage: bootswitch <variant>"
     echo ""
     echo "Variants:"
     for v in $VALID_VARIANTS; do
         echo "  $v"
     done
-    echo ""
-    echo "Commands:"
-    echo "  status  - Show current booted and staged images"
-    echo "  upgrade - Upgrade to the latest version of the current image"
 }
 
 if [ -z "$1" ]; then
@@ -23,25 +19,12 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-case "$1" in
-    status)
-        bootc status | grep -E "Booted|Queued|Image:"
-        exit 0
-        ;;
-    upgrade)
-        echo "Upgrading..."
-        sudo bootc upgrade
-        exit $?
-        ;;
-    *)
-        if ! echo "$VALID_VARIANTS" | grep -qw "$1"; then
-            echo "Error: Unknown variant or command '$1'"
-            show_usage
-            exit 1
-        fi
-        TAG="$1"
-        ;;
-esac
+if ! echo "$VALID_VARIANTS" | grep -qw "$1"; then
+    echo "Error: Unknown variant '$1'"
+    show_usage
+    exit 1
+fi
+TAG="$1"
 
 FULL_IMAGE_PATH="${REGISTRY}:${TAG}"
 

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Fe02-OS Update
+Comment=Update the system image, Flatpaks, and Distrobox containers
+Exec=fe02-update
+Icon=fe02-logo
+Terminal=true
+Categories=System;

@@ -1,0 +1,9 @@
+// Let any local user start the image-update service without authenticating.
+// Safe because the unit's ExecStart is fixed at build time and cannot be
+// influenced by the caller.
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.freedesktop.systemd1.manage-units" &&
+        action.lookup("unit") == "fe02-update-image.service") {
+        return polkit.Result.YES;
+    }
+});
