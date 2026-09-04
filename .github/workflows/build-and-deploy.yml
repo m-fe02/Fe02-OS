@@ -78,11 +78,17 @@ jobs:
         run: |
           source ENVAR
           IMAGE="ghcr.io/m-fe02/fe02-os:${{ matrix.tag }}"
+          # bootc/ostree read org.opencontainers.image.version to populate the
+          # "Version" shown by `bootc status` and the GRUB/BLS boot entry
+          # title, so bake the variant tag and build date into it - otherwise
+          # every deployment's boot entry just says "Fe02-OS".
+          VERSION="${{ matrix.tag }}-$(date +%Y%m%d)"
           podman build \
             --build-arg FEDORA_MAJOR_VERSION=${MAJOR_VERSION} \
             --build-arg BASE_IMAGE_NAME=${{ matrix.base_image }} \
             --build-arg DESKTOP_ENV=${{ matrix.desktop }} \
             --build-arg GAMING=${{ matrix.gaming }} \
+            --label "org.opencontainers.image.version=${VERSION}" \
             --tag "${IMAGE}" \
             -f Containerfile
 
