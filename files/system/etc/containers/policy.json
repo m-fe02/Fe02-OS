@@ -5,6 +5,9 @@
         }
     ],
     "transports": {
+        "containers-storage": {
+            "": [{"type": "insecureAcceptAnything"}]
+        },
         "docker": {
             "ghcr.io/m-fe02": [
                 {
