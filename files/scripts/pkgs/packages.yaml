@@ -27,6 +27,7 @@ packages:
     - neovim
     - distrobox
     - dfu-util
+    - podman-compose
     - stow
     - fastfetch
     - tailscale
