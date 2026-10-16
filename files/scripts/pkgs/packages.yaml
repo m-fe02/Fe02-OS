@@ -19,6 +19,7 @@ packages:
       - gnome-shell-extension*
       - gnome-tour
       - gnome-system-monitor
+      - gnome-software*
     cosmic: []
     kde: []
 
