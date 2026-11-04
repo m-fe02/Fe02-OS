@@ -1,4 +1,4 @@
 # Fe02-OS Build Environment Variables
 PROJECT_NAME="fe02"
 IMAGE_NAME="fe02-os"
-MAJOR_VERSION="44"
+MAJOR_VERSION="45"
