@@ -3,34 +3,37 @@ set -ex
 
 echo "INFO: Running container cleanup..."
 
-dnf clean all
-rm -rf /var/lib/dnf /var/log/dnf5.log /var/cache/libdnf5
+# Remove DNF runtime state (leave /var/cache intact so the build cache mount works)
+rm -rf /var/lib/dnf
 
-rm -rf /boot/* /boot/.* 2>/dev/null || true
+# Clean /boot contents safely without expanding to '.' or '..'
+find /boot -mindepth 1 -delete
 
+# Clean log files (systemd-tmpfiles handles /var/log/journal permissions at boot)
 find /var/log -type f -delete
-mkdir -p /var/log/journal
-chmod 2755 /var/log/journal
-chown root:systemd-journal /var/log/journal
 
+# Clean package manager and daemon state left behind in /var
 rm -rf \
     /var/lib/containers \
+    /var/lib/tailscale \
+    /var/lib/tpm2-tss \
     /var/lib/rpm-state \
     /var/lib/selinux/targeted/active \
     /var/lib/selinux/targeted/semanage.read.* \
     /var/lib/selinux/targeted/seusers \
     /var/lib/selinux/targeted/commit_num || true
 
+# Remove container-engine injected resolv.conf so systemd-tmpfiles restores the stub symlink
 rm -f /etc/resolv.conf
-touch /etc/resolv.conf
 rm -rf /etc/skel/.mozilla /etc/skel/.config/user-tmpfiles.d || true
 
 systemd-tmpfiles --create --boot --root=/ || true
 
-rm -rf /run/* /tmp/* /var/tmp/* || true
+# Empty runtime state (/tmp is in tmpfs and automatically discarded on unmount)
+rm -rf /run/* /var/tmp/* || true
 
-mkdir -p /run /tmp /var/tmp
-chmod 0755 /run /tmp
+mkdir -p /run /var/tmp
+chmod 0755 /run
 chmod 1777 /var/tmp
 
 echo "INFO: Container cleanup complete."
