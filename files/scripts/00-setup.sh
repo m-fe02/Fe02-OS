@@ -32,3 +32,6 @@ bash "$BUILD_SETUP_DIR/06-initramfs.sh"
 
 echo "Running cleanup..."
 bash "$BUILD_SETUP_DIR/07-post-setup.sh"
+
+echo "Step 8: Linting bootc container..."
+bootc container lint
