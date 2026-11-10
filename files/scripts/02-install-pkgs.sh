@@ -38,11 +38,14 @@ yq -r '.repos.url // {} | to_entries[] | "\(.key) \(.value)"' "$PKG_FILE" \
     done
 
 yq -r '.repos.inline // {} | keys[]' "$PKG_FILE" | while read -r name; do
+    [[ -z "$name" ]] && continue
     yq -r ".repos.inline[\"${name}\"]" "$PKG_FILE" > "/etc/yum.repos.d/${name}.repo"
 done
 
 readarray -t GLOBAL_COPR < <(yq -r '.repos.copr // [] | .[]' "$PKG_FILE")
-copr_manage enable "${GLOBAL_COPR[@]}"
+if [ "${#GLOBAL_COPR[@]}" -gt 0 ]; then
+    copr_manage enable "${GLOBAL_COPR[@]}"
+fi
 
 # --- Remove bloat ---
 echo "Parsing packages for variant: $DESKTOP_ENV"
@@ -69,10 +72,12 @@ echo "Installing common and variant packages..."
 "${DNF_INSTALL[@]}" $COMMON_PKGS $VARIANT_PKGS
 
 VARIANT_SERVICES=$(yq -r ".packages.variants.${DESKTOP_ENV}.services[]?" "$PKG_FILE" | xargs)
-for svc in $VARIANT_SERVICES; do
-    echo "Enabling service: $svc"
-    systemctl enable "$svc"
-done
+if [ -n "$VARIANT_SERVICES" ]; then
+    for svc in $VARIANT_SERVICES; do
+        echo "Enabling service: $svc"
+        systemctl enable "$svc"
+    done
+fi
 
 # --- Gaming packages ---
 GAMING=${GAMING:-false}
@@ -85,7 +90,9 @@ if [ "$GAMING" = "true" ]; then
     fi
 
     readarray -t GAMING_COPR < <(yq -r '.packages.gaming.repos.copr // [] | .[]' "$PKG_FILE")
-    copr_manage enable "${GAMING_COPR[@]}"
+    if [ "${#GAMING_COPR[@]}" -gt 0 ]; then
+        copr_manage enable "${GAMING_COPR[@]}"
+    fi
 
     GAMING_PKGS=$(yq -r '.packages.gaming.packages[]' "$PKG_FILE" | xargs)
     echo "Installing gaming packages..."
@@ -97,16 +104,20 @@ if [ "$GAMING" = "true" ]; then
         dnf remove -y $GAMING_RPM_PKGS
     fi
 
-    copr_manage disable "${GAMING_COPR[@]}"
+    if [ "${#GAMING_COPR[@]}" -gt 0 ]; then
+        copr_manage disable "${GAMING_COPR[@]}"
+    fi
 fi
 
 # --- Cleanup global repos ---
 yq -r '.repos.url // {} | keys[]' "$PKG_FILE" | while read -r name; do
-    rm -f "/etc/yum.repos.d/${name}.repo"
+    [[ -n "$name" ]] && rm -f "/etc/yum.repos.d/${name}.repo"
 done
 
 yq -r '.repos.inline // {} | keys[]' "$PKG_FILE" | while read -r name; do
-    rm -f "/etc/yum.repos.d/${name}.repo"
+    [[ -n "$name" ]] && rm -f "/etc/yum.repos.d/${name}.repo"
 done
 
-copr_manage disable "${GLOBAL_COPR[@]}"
+if [ "${#GLOBAL_COPR[@]}" -gt 0 ]; then
+    copr_manage disable "${GLOBAL_COPR[@]}"
+fi

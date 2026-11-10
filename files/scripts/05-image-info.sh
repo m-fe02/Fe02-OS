@@ -29,18 +29,20 @@ VARIANT_ID="${DESKTOP_ENV:-fe02-os}"
 
 OS_RELEASE_FILE="/usr/lib/os-release"
 
-sed -i "s|^VARIANT_ID=.*|VARIANT_ID=${VARIANT_ID}|" "${OS_RELEASE_FILE}"
-sed -i "s|^PRETTY_NAME=.*|PRETTY_NAME=\"${IMAGE_PRETTY_NAME}\"|" "${OS_RELEASE_FILE}"
-sed -i "s|^NAME=.*|NAME=\"${IMAGE_NAME}\"|" "${OS_RELEASE_FILE}"
-sed -i "s|^HOME_URL=.*|HOME_URL=\"${HOME_URL}\"|" "${OS_RELEASE_FILE}"
-sed -i "s|^DOCUMENTATION_URL=.*|DOCUMENTATION_URL=\"${DOCUMENTATION_URL}\"|" "${OS_RELEASE_FILE}"
-sed -i "s|^SUPPORT_URL=.*|SUPPORT_URL=\"${SUPPORT_URL}\"|" "${OS_RELEASE_FILE}"
-sed -i "s|^BUG_REPORT_URL=.*|BUG_REPORT_URL=\"${BUG_REPORT_URL}\"|" "${OS_RELEASE_FILE}"
-sed -i "s|^CPE_NAME=\"cpe:/o:fedoraproject:fedora|CPE_NAME=\"cpe:/o:m-fe02:fe02-os|" "${OS_RELEASE_FILE}"
-sed -i "s|^DEFAULT_HOSTNAME=.*|DEFAULT_HOSTNAME=\"fe02-os\"|" "${OS_RELEASE_FILE}"
-sed -i "s|^ID=fedora|ID=fe02-os\nID_LIKE=\"${IMAGE_LIKE}\"|" "${OS_RELEASE_FILE}"
-sed -i "s|^LOGO=.*|LOGO=${LOGO_ICON}|" "${OS_RELEASE_FILE}"
-sed -i "/^REDHAT_BUGZILLA_PRODUCT=/d; /^REDHAT_BUGZILLA_PRODUCT_VERSION=/d; /^REDHAT_SUPPORT_PRODUCT=/d; /^REDHAT_SUPPORT_PRODUCT_VERSION=/d" "${OS_RELEASE_FILE}"
+sed -i \
+    -e "s|^VARIANT_ID=.*|VARIANT_ID=${VARIANT_ID}|" \
+    -e "s|^PRETTY_NAME=.*|PRETTY_NAME=\"${IMAGE_PRETTY_NAME}\"|" \
+    -e "s|^NAME=.*|NAME=\"${IMAGE_NAME}\"|" \
+    -e "s|^HOME_URL=.*|HOME_URL=\"${HOME_URL}\"|" \
+    -e "s|^DOCUMENTATION_URL=.*|DOCUMENTATION_URL=\"${DOCUMENTATION_URL}\"|" \
+    -e "s|^SUPPORT_URL=.*|SUPPORT_URL=\"${SUPPORT_URL}\"|" \
+    -e "s|^BUG_REPORT_URL=.*|BUG_REPORT_URL=\"${BUG_REPORT_URL}\"|" \
+    -e "s|^CPE_NAME=\"cpe:/o:fedoraproject:fedora|CPE_NAME=\"cpe:/o:m-fe02:fe02-os|" \
+    -e "s|^DEFAULT_HOSTNAME=.*|DEFAULT_HOSTNAME=\"fe02-os\"|" \
+    -e "s|^ID=fedora|ID=fe02-os\nID_LIKE=\"${IMAGE_LIKE}\"|" \
+    -e "s|^LOGO=.*|LOGO=${LOGO_ICON}|" \
+    -e "/^REDHAT_BUGZILLA_PRODUCT=/d; /^REDHAT_BUGZILLA_PRODUCT_VERSION=/d; /^REDHAT_SUPPORT_PRODUCT=/d; /^REDHAT_SUPPORT_PRODUCT_VERSION=/d" \
+    "${OS_RELEASE_FILE}"
 
 # Fedora's grub2-switch-to-blscfg hardcodes EFIDIR based on the previous
 # ID=fedora. It still needs to look in /boot/efi/EFI/fedora for the actual

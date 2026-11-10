@@ -3,6 +3,11 @@ set -ex
 
 echo "INFO: Running container cleanup..."
 
+# Remove build-only dependencies
+if rpm -q yq >/dev/null 2>&1; then
+    dnf remove -y yq
+fi
+
 # Remove DNF runtime state (leave /var/cache intact so the build cache mount works)
 rm -rf /var/lib/dnf
 

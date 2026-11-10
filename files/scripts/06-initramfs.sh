@@ -5,10 +5,6 @@ set -euo pipefail
 echo "INFO: Regenerating Initramfs for all installed kernels."
 
 DRACUT="/usr/bin/dracut"
-if [[ -f "/usr/libexec/rpm-ostree/wrapped/dracut" ]]; then
-    DRACUT="/usr/libexec/rpm-ostree/wrapped/dracut"
-    echo "INFO: Using rpm-ostree wrapped dracut."
-fi
 
 temp_conf_file="$(mktemp '/etc/dracut.conf.d/zzz-loglevels-XXXXXXXXXX.conf')"
 cat > "${temp_conf_file}" <<'EOF'
