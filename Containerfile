@@ -3,7 +3,6 @@ ARG BASE_IMAGE_NAME
 
 FROM scratch AS ctx
 COPY files /
-COPY cosign.pub /
 
 FROM ${BASE_IMAGE_NAME}:${FEDORA_MAJOR_VERSION}
 

@@ -5,12 +5,6 @@ BUILD_SETUP_DIR="/ctx/scripts"
 
 echo "Step 1: Installing signing policy, public key, and utilities..."
 cp -drf /ctx/system/* /
-mkdir -p /etc/pki/containers
-cp /ctx/cosign.pub /etc/pki/containers/cosign.pub
-cp /ctx/bin/fe02-sign.sh /usr/bin/fe02-sign
-cp /ctx/bin/fe02-bootswitch /usr/bin/fe02-bootswitch
-cp /ctx/bin/fe02-update.sh /usr/bin/fe02-update
-chmod +x /usr/bin/fe02-sign /usr/bin/fe02-bootswitch /usr/bin/fe02-update
 
 echo "Step 2: Switching /opt to an ostree state overlay..."
 bash "$BUILD_SETUP_DIR/01-opt-overlay.sh"
