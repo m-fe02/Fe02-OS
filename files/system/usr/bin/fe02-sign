@@ -6,13 +6,19 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-# 1. Sync the policy from the image to the system
-if [ -f "/usr/etc/containers/policy.json" ]; then
-    echo "Syncing Fe02-OS signature policy..."
-    cp -f /usr/etc/containers/policy.json /etc/containers/policy.json
-else
-    echo "Error: Custom policy not found in image (/usr/etc/containers/policy.json)."
+# 1. Make sure /etc uses the image's signature policy. Normally it already
+#    does, but updates keep a locally edited /etc file instead of the image's,
+#    so reset it if it has drifted.
+IMAGE_POLICY="/usr/etc/containers/policy.json"
+if [ ! -f "$IMAGE_POLICY" ]; then
+    echo "Error: Custom policy not found in image ($IMAGE_POLICY)."
     exit 1
+fi
+if cmp -s "$IMAGE_POLICY" /etc/containers/policy.json; then
+    echo "Fe02-OS signature policy already in place."
+else
+    echo "Restoring Fe02-OS signature policy (local copy was modified)..."
+    cp -f "$IMAGE_POLICY" /etc/containers/policy.json
 fi
 
 # 2. Get the current image reference
